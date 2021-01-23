@@ -1,0 +1,43 @@
+extern printf
+extern scanf
+
+section .data
+        test: db "%d",0
+        prime: db "The number is prime",10,0
+        not: db "The nuber is not prime",10,0
+
+section .text
+        global main
+        
+        main:
+        push ebp
+        mov ebp, esp
+        
+        lea eax,[ebp-0x4]
+        push eax
+        push test
+        call scanf
+        
+        mov ebx,dword [ebp-0x4]
+        mov ecx,2
+        
+        loop:
+        mov edx,0
+        mov eax,ebx
+        div ecx
+        cmp edx,0
+        je no
+        add ecx,1
+        cmp ecx,ebx
+        jl loop
+        push prime
+        call printf
+        jmp end
+        
+        no:
+        push not
+        call printf
+        
+        end:
+        leave
+        ret
